@@ -13,7 +13,7 @@ public class Main {
         employee[8] = new Employee("Петров Иван3", 5, 42_000);
         employee[9] = new Employee("Петров Иван4", 5, 45_000);
 
-        //Базовая сложность
+        // Базовая сложность
         // Получить список всех сотрудников со всеми имеющимися по ним данными
         // (вывести в консоль значения всех полей (toString));
         printAllEmployee();
@@ -27,6 +27,30 @@ public class Main {
         System.out.println(isWageMedium());
         // Распечатать ФИО всех сотрудников (метод ничего???).
         printAllName();
+
+        // Повышенная сложность
+        // Проиндексировать зарплату (вызвать изменение зп у всех сотрудников на величину аргумента в %)
+        performWageIndexation(0);
+        // Получить в качестве параметра номер отдела (1-5) и найти (всего 6 методов):
+        // Сотрудника с минимальной зп;
+        isWageMinDepartment(2);
+        // Сотрудника с максимальной зп;
+        isWageMaxDepartment(3);
+        // Сумму затрат на зп по отделу;
+        isWageMonthDepartment(1);
+        // Среднюю зп по отделу (учесть, что количество людей в отделе отличается от employees.length);
+        isWageMediumDepartment(1);
+        // Проиндексировать зарплату всех сотрудников отдела на процент, который
+        // приходит в качестве параметра;
+        performWageIndexationDepartment(10, 5);
+        // Напечатать всех сотрудников отдела (все данные, кроме отдела).
+        printAllEmployeeDepartment(1);
+        // Получить в качестве параметра число и вывести:
+        // Всех сотрудников с зп меньше числа (распечатать id, фио и зп в консоль);
+        printWageLess(40000);
+        // Всех сотрудников с зп больше (или равно) числа (распечатать id, фио и зп в консоль).
+        printWageMore(40_500);
+
     }
 
     private static void printAllEmployee() {
@@ -54,10 +78,9 @@ public class Main {
         for (int i = 0; i < employee.length; i++) {
             if (wageMin == employee[i].getWage()) {
                 name = employee[i].getName() + " " + employee[i].getWage();
-                return name;
             }
         }
-        return "0";
+        return name;
     }
     public static String isWageMax() {
         int wageMax = employee[0].getWage();
@@ -70,10 +93,9 @@ public class Main {
         for (int i = 0; i < employee.length; i++) {
             if (wageMax == employee[i].getWage()) {
                 name = employee[i].getName() + " " + employee[i].getWage();
-                return name;
             }
         }
-        return "0";
+        return name;
     }
     public static int isWageMedium() {
         int medium = 0;
@@ -88,5 +110,98 @@ public class Main {
         }
     }
 
+    public static void performWageIndexation(double percent) {
+        for (int i = 0; i < employee.length; i++) {
+            employee[i].setWage(employee[i].getWage() * (int) (1 + percent / 100.0));
+        }
+    }
+    public static String isWageMinDepartment(int dep) {
+        int wageMin = -1;
+        String name = "";
+        for (int i = 0; i < employee.length; i++) {
+            if (employee[i].getDepartment() == dep) {
+                wageMin = employee[i].getWage();
+                if (wageMin > employee[i].getWage()) {
+                    wageMin = employee[i].getWage();
+                }
+            }
+        }
+        for (int i = 0; i < employee.length; i++) {
+            if (wageMin == employee[i].getWage()) {
+                name = employee[i].getName() + " " + employee[i].getWage();
+            }
+        }
+        return name;
+    }
+    public static String isWageMaxDepartment(int dep) {
+        int wageMax = -1;
+        String name = "";
+        for (int i = 0; i < employee.length; i++) {
+            if (employee[i].getDepartment() == dep) {
+                wageMax = employee[0].getWage();
+                if (wageMax < employee[i].getWage()) {
+                    wageMax = employee[i].getWage();
+                }
+            }
+        }
+        for (int i = 0; i < employee.length; i++) {
+            if (wageMax == employee[i].getWage()) {
+                name = employee[i].getName() + " " + employee[i].getWage();
+            }
+        }
+        return name;
+    }
+    public static int isWageMonthDepartment(int dep) {
+        int sum = 0;
+        for (int i = 0; i < employee.length; i++) {
+            if (employee[i].getDepartment() == dep) {
+                sum = sum + employee[i].getWage();
+            }
+        }
+        return sum;
+    }
+    public static int isWageMediumDepartment(int dep) {
+        int medium = 0;
+        int count = 0;
+        for (int i = 0; i < employee.length; i++) {
+            if (employee[i].getDepartment() == dep) {
+                count++;
+            }
+        }
+        medium = isWageMonthDepartment(dep) / count;
+        return medium;
+    }
+    public static void performWageIndexationDepartment(double percent, int dep) {
+        for (int i = 0; i < employee.length; i++) {
+            if (employee[i].getDepartment() == dep) {
+                employee[i].setWage(employee[i].getWage() * (int) (1 + percent / 100.0));
+            }
+        }
+    }
+    public static void printAllEmployeeDepartment(int dep) {
+        System.out.println("Cписок всех сотрудников отдела " + dep + ": ");
+        for (int i = 0; i < employee.length; i++) {
+            if (employee[i].getDepartment() == dep) {
+                System.out.println(employee[i].getDep());
+            }
+        }
+    }
+
+    public static void printWageLess(int wage) {
+        System.out.println("Cписок всех сотрудников с зарплатой ниже - " + wage + ": ");
+        for (int i = 0; i < employee.length; i++) {
+            if (employee[i].getWage() <= wage) {
+                System.out.println(employee[i].getDep());
+            }
+        }
+    }
+    public static void printWageMore(int wage) {
+        System.out.println("Cписок всех сотрудников с зарплатой больше - " + wage + ": ");
+        for (int i = 0; i < employee.length; i++) {
+            if (employee[i].getWage() >= wage) {
+                System.out.println(employee[i].getDep());
+            }
+        }
+    }
 
 }

@@ -46,4 +46,11 @@ public class Employee {
                 ", id=" + id +
                 '}';
     }
+    public String getDep() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", wage=" + wage +
+                ", id=" + id +
+                '}';
+    }
 }
